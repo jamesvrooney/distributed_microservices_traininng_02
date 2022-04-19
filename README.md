@@ -1,2 +1,2 @@
-# distributed_microservices_traininng_02
+# Distributed Microservices Training
 Training course for Distributed Microservices
