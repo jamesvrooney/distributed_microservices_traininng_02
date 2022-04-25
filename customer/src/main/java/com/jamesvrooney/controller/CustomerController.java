@@ -19,13 +19,7 @@ public class CustomerController {
 
     @GetMapping("{customerId}")
     public Customer getCustomer(@PathVariable UUID customerId) {
-//        var customer = Customer.builder()
-//                .id(customerId)
-//                .firstName("James")
-//                .lastName("Rooney")
-//                .email("jamesvrooney@hotmail.com")
-//                .build();
-
+        
         var customer = customerService.getCustomer(customerId);
 
         return customer;
