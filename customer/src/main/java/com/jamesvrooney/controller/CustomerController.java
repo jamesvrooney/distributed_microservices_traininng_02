@@ -19,7 +19,7 @@ public class CustomerController {
 
     @GetMapping("{customerId}")
     public Customer getCustomer(@PathVariable UUID customerId) {
-        
+
         var customer = customerService.getCustomer(customerId);
 
         return customer;
