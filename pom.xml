@@ -20,11 +20,25 @@
 	<modules>
 		<module>customer</module>
         <module>fraud</module>
-    </modules>
+		<module>eureka-server</module>
+	</modules>
 
 	<properties>
 		<java.version>17</java.version>
+		<spring.cloud-version>2021.0.1</spring.cloud-version>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring.cloud-version}</version>
+<!--				<scope>import</scope>-->
+<!--				<type>pom</type>-->
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 		<dependency>
