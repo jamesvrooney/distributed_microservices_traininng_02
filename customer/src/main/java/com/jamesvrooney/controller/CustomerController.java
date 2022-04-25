@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Slf4j
 @AllArgsConstructor
 @RestController
@@ -16,20 +18,22 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping("{customerId}")
-    public Customer getCustomer(@PathVariable String customerId) {
-        var customer = Customer.builder()
-                .id(Integer.getInteger(customerId))
-                .firstName("James")
-                .lastName("Rooney")
-                .email("jamesvrooney@hotmail.com")
-                .build();
+    public Customer getCustomer(@PathVariable UUID customerId) {
+//        var customer = Customer.builder()
+//                .id(customerId)
+//                .firstName("James")
+//                .lastName("Rooney")
+//                .email("jamesvrooney@hotmail.com")
+//                .build();
+
+        var customer = customerService.getCustomer(customerId);
 
         return customer;
     }
 
     @PostMapping("register")
-    public CreateCustomerCommand registerCustomer(@RequestBody CreateCustomerCommand customer) {
-        CreateCustomerCommand createdCustomer = customerService.createCustomer(customer);
+    public Customer registerCustomer(@RequestBody CreateCustomerCommand customer) {
+        Customer createdCustomer = customerService.createCustomer(customer);
 
         return createdCustomer;
     }
