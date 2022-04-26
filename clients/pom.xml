@@ -11,7 +11,7 @@
 	<groupId>com.jamesvrooney</groupId>
 	<artifactId>clients</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Clients</name>
+	<name>clients</name>
 	<description>OpenFeign clients</description>
 
 	<properties>

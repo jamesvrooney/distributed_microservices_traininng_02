@@ -2,6 +2,8 @@ package com.jamesvrooney.service;
 
 import com.jamesvrooney.clients.fraud.FraudClient;
 import com.jamesvrooney.clients.fraud.model.FraudCheckResponse;
+import com.jamesvrooney.clients.notification.NotificationClient;
+import com.jamesvrooney.clients.notification.model.NotificationRequest;
 import com.jamesvrooney.model.CreateCustomerCommand;
 import com.jamesvrooney.model.Customer;
 import com.jamesvrooney.repository.CustomerRepository;
@@ -18,8 +20,8 @@ import java.util.UUID;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
-//    private final RestTemplate restTemplate;
     private final FraudClient fraudClient;
+    private final NotificationClient notificationClient;
 
     @Override
     public Customer getCustomer(UUID customerId) {
@@ -48,6 +50,14 @@ public class CustomerServiceImpl implements CustomerService {
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("This customer is a fraudster");
         }
+
+        notificationClient.saveNotification(
+                NotificationRequest.builder()
+                        .toCustomerId(savedCustomer.getId())
+                        .message("Saves successfully")
+                        .toCustomerEmail(savedCustomer.getEmail())
+                        .build()
+        );
 
         return savedCustomer;
     }
