@@ -42,7 +42,11 @@ public class CustomerServiceImpl implements CustomerService {
 
         var savedCustomer = customerRepository.save(customer);
 
-        restTemplate.getForObject("http://localhost:8081/api/v1/fraud-check/{customerId}",
+//        restTemplate.getForObject("http://localhost:8081/api/v1/fraud-check/{customerId}",
+//                FraudCheckResponse.class,
+//                savedCustomer.getId());
+
+        restTemplate.getForObject("http://FRAUD/api/v1/fraud-check/{customerId}",
                 FraudCheckResponse.class,
                 savedCustomer.getId());
 
