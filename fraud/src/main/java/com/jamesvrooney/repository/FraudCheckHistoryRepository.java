@@ -1,6 +1,6 @@
 package com.jamesvrooney.repository;
 
-import com.jamesvrooney.model.FraudCheckHistory;
+import com.jamesvrooney.clients.fraud.model.FraudCheckHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

@@ -1,13 +1,13 @@
 package com.jamesvrooney.service;
 
+import com.jamesvrooney.clients.fraud.FraudClient;
 import com.jamesvrooney.model.CreateCustomerCommand;
 import com.jamesvrooney.model.Customer;
-import com.jamesvrooney.model.FraudCheckResponse;
+import com.jamesvrooney.clients.fraud.model.FraudCheckResponse;
 import com.jamesvrooney.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -18,7 +18,8 @@ import java.util.UUID;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final RestTemplate restTemplate;
+//    private final RestTemplate restTemplate;
+    private final FraudClient fraudClient;
 
     @Override
     public Customer getCustomer(UUID customerId) {
@@ -46,9 +47,14 @@ public class CustomerServiceImpl implements CustomerService {
 //                FraudCheckResponse.class,
 //                savedCustomer.getId());
 
-        restTemplate.getForObject("http://FRAUD/api/v1/fraud-check/{customerId}",
-                FraudCheckResponse.class,
-                savedCustomer.getId());
+//        restTemplate.getForObject("http://FRAUD/api/v1/fraud-check/{customerId}",
+//                FraudCheckResponse.class,
+//                savedCustomer.getId());
+        FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(savedCustomer.getId());
+
+        if (fraudCheckResponse.isFraudster()) {
+            throw new IllegalStateException("This customer is a fraudster");
+        }
 
         return savedCustomer;
     }

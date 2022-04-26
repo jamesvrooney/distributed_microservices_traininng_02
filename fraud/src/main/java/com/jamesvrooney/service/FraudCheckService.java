@@ -1,6 +1,6 @@
 package com.jamesvrooney.service;
 
-import com.jamesvrooney.model.FraudCheckResponse;
+import com.jamesvrooney.clients.fraud.model.FraudCheckResponse;
 
 import java.util.UUID;
 

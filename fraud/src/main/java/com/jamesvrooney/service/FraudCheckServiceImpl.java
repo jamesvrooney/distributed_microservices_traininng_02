@@ -1,7 +1,7 @@
 package com.jamesvrooney.service;
 
-import com.jamesvrooney.model.FraudCheckHistory;
-import com.jamesvrooney.model.FraudCheckResponse;
+import com.jamesvrooney.clients.fraud.model.FraudCheckHistory;
+import com.jamesvrooney.clients.fraud.model.FraudCheckResponse;
 import com.jamesvrooney.repository.FraudCheckHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,10 @@ public class FraudCheckServiceImpl implements FraudCheckService {
                         .build()
         );
 
-        return FraudCheckResponse.builder().isFraudster(false).build();
+//        FraudCheckResponse fraudCheckResponse = FraudCheckResponse.builder().isFraudster(false).build();
+        FraudCheckResponse fraudCheckResponse = new FraudCheckResponse();
+        fraudCheckResponse.setFraudster(false);
+//        return new FraudCheckResponse(false);
+        return fraudCheckResponse;
     }
 }
