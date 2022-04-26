@@ -1,10 +1,8 @@
 package com.jamesvrooney.clients.fraud.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
-//@Data
-//@Builder
-//@AllArgsConstructor
 @Getter
 @Setter
 public class FraudCheckResponse {

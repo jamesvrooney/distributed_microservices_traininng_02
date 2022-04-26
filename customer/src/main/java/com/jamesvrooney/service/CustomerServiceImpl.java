@@ -1,9 +1,9 @@
 package com.jamesvrooney.service;
 
 import com.jamesvrooney.clients.fraud.FraudClient;
+import com.jamesvrooney.clients.fraud.model.FraudCheckResponse;
 import com.jamesvrooney.model.CreateCustomerCommand;
 import com.jamesvrooney.model.Customer;
-import com.jamesvrooney.clients.fraud.model.FraudCheckResponse;
 import com.jamesvrooney.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,13 +43,6 @@ public class CustomerServiceImpl implements CustomerService {
 
         var savedCustomer = customerRepository.save(customer);
 
-//        restTemplate.getForObject("http://localhost:8081/api/v1/fraud-check/{customerId}",
-//                FraudCheckResponse.class,
-//                savedCustomer.getId());
-
-//        restTemplate.getForObject("http://FRAUD/api/v1/fraud-check/{customerId}",
-//                FraudCheckResponse.class,
-//                savedCustomer.getId());
         FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(savedCustomer.getId());
 
         if (fraudCheckResponse.isFraudster()) {
