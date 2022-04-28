@@ -4,6 +4,7 @@ import com.jamesvrooney.clients.fraud.FraudClient;
 import com.jamesvrooney.clients.fraud.model.FraudCheckResponse;
 import com.jamesvrooney.clients.notification.NotificationClient;
 import com.jamesvrooney.clients.notification.model.NotificationRequest;
+import com.jamesvrooney.messaging.RabbitMQMessageProducer;
 import com.jamesvrooney.model.CreateCustomerCommand;
 import com.jamesvrooney.model.Customer;
 import com.jamesvrooney.repository.CustomerRepository;
@@ -22,6 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final FraudClient fraudClient;
     private final NotificationClient notificationClient;
+    private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
     @Override
     public Customer getCustomer(UUID customerId) {
@@ -51,12 +53,24 @@ public class CustomerServiceImpl implements CustomerService {
             throw new IllegalStateException("This customer is a fraudster");
         }
 
-        notificationClient.saveNotification(
-                NotificationRequest.builder()
-                        .toCustomerId(savedCustomer.getId())
-                        .message("Saves successfully")
-                        .toCustomerEmail(savedCustomer.getEmail())
-                        .build()
+//        notificationClient.saveNotification(
+//                NotificationRequest.builder()
+//                        .toCustomerId(savedCustomer.getId())
+//                        .message("Saves successfully")
+//                        .toCustomerEmail(savedCustomer.getEmail())
+//                        .build()
+//        );
+
+        var notificationRequestPayload = new NotificationRequest();
+
+        notificationRequestPayload.setToCustomerId(savedCustomer.getId());
+        notificationRequestPayload.setMessage("Saves successfully");
+        notificationRequestPayload.setToCustomerEmail(savedCustomer.getEmail());
+
+        rabbitMQMessageProducer.publish(
+                notificationRequestPayload,
+                "internal.exchange",
+                "internal.notification.routing-key"
         );
 
         return savedCustomer;
